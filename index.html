@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quinta Feliz Dragão × Dragão Invites</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --verde: #2C3A2E;
+    --verde-claro: #3D5240;
+    --creme: #F5EDD8;
+    --creme-escuro: #EAE0C8;
+    --terracota: #8B4A2B;
+    --dourado: #C9A96E;
+    --dourado-claro: #E8D4A0;
+    --carvao: #1A1A1A;
+    --cinza: #6B7280;
+    --branco: #FEFDFB;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--creme);
+    color: var(--carvao);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 3rem;
+    background: transparent;
+    transition: background 0.4s, backdrop-filter 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(44, 58, 46, 0.95);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--creme);
+    letter-spacing: 0.05em;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  nav.scrolled .nav-logo { opacity: 1; }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--creme);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    background: var(--verde);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(201,169,110,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(139,74,43,0.12) 0%, transparent 50%),
+      var(--verde);
+  }
+
+  .hero-illustration {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.07;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 2rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--dourado);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 700;
+    color: var(--creme);
+    line-height: 1.05;
+    margin-bottom: 0.3rem;
+    opacity: 0;
+    transform: translateY(25px);
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--dourado);
+    font-weight: 400;
+  }
+
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--dourado-claro);
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.9s ease 0.7s forwards;
+  }
+
+  .hero-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--dourado);
+    margin: 1.5rem auto;
+    opacity: 0;
+    animation: fadeIn 0.8s ease 0.9s forwards;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeIn 0.8s ease 1.1s forwards;
+  }
+
+  .hero-meta-item { text-align: center; }
+
+  .hero-meta-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dourado);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .hero-meta-value {
+    font-size: 0.9rem;
+    color: var(--creme-escuro);
+    font-weight: 300;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    animation: fadeIn 0.8s ease 1.4s forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  .hero-scroll span {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dourado);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: var(--dourado);
+    animation: scrollPulse 1.5s ease infinite;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 0; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--verde);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--terracota);
+    font-weight: 400;
+  }
+
+  .section-body {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: #3A3A3A;
+    font-weight: 300;
+    max-width: 640px;
+  }
+
+  /* ── IDENTIFICAÇÃO ── */
+  #identificacao { background: var(--branco); }
+
+  .id-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    margin-top: 3.5rem;
+  }
+
+  .id-table { width: 100%; border-collapse: collapse; }
+
+  .id-table tr {
+    border-bottom: 1px solid var(--creme-escuro);
+    transition: background 0.2s;
+  }
+
+  .id-table tr:hover { background: var(--creme); }
+
+  .id-table td {
+    padding: 0.9rem 0.5rem;
+    font-size: 0.88rem;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  .id-table td:first-child {
+    font-weight: 600;
+    color: var(--verde);
+    width: 40%;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding-right: 1rem;
+  }
+
+  .id-table td:last-child {
+    color: #3A3A3A;
+    font-weight: 300;
+  }
+
+  .id-visual {
+    background: var(--verde);
+    border-radius: 2px;
+    padding: 2.5rem;
+    color: var(--creme);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .id-visual::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(201,169,110,0.12);
+  }
+
+  .id-stat { margin-bottom: 2rem; }
+  .id-stat:last-child { margin-bottom: 0; }
+
+  .id-stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--dourado);
+    line-height: 1;
+  }
+
+  .id-stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--creme-escuro);
+    margin-top: 0.3rem;
+    font-weight: 400;
+  }
+
+  /* ── EIXOS ── */
+  #eixos { background: var(--verde); }
+  #eixos .section-title { color: var(--creme); }
+  #eixos .section-body { color: var(--creme-escuro); }
+
+  .eixos-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 3.5rem;
+  }
+
+  .eixo-card {
+    background: rgba(255,255,255,0.05);
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: background 0.3s;
+    border: 1px solid rgba(201,169,110,0.15);
+  }
+
+  .eixo-card:hover { background: rgba(201,169,110,0.1); }
+
+  .eixo-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 700;
+    color: rgba(201,169,110,0.12);
+    position: absolute;
+    top: -0.5rem;
+    right: 1rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .eixo-icon {
+    width: 48px; height: 48px;
+    border: 1px solid var(--dourado);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .eixo-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dourado);
+    margin-bottom: 0.8rem;
+  }
+
+  .eixo-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--creme);
+    margin-bottom: 1rem;
+    line-height: 1.25;
+  }
+
+  .eixo-body {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: rgba(245,237,216,0.75);
+    font-weight: 300;
+  }
+
+  .eixo-badge {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgba(201,169,110,0.3);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dourado);
+  }
+
+  /* ── PRODUTOS ── */
+  #produtos { background: var(--creme); }
+
+  .produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    margin-top: 3.5rem;
+    background: var(--creme-escuro);
+    border: 1px solid var(--creme-escuro);
+  }
+
+  .produto-item {
+    background: var(--branco);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: background 0.25s, transform 0.25s;
+    cursor: default;
+  }
+
+  .produto-item:hover {
+    background: var(--verde);
+    transform: translateY(-3px);
+  }
+
+  .produto-item:hover .produto-nome { color: var(--creme); }
+  .produto-item:hover .produto-desc { color: var(--dourado-claro); }
+  .produto-item:hover .produto-svg { filter: invert(1) sepia(1) saturate(2) hue-rotate(5deg); }
+
+  .produto-svg {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    display: block;
+    transition: filter 0.25s;
+  }
+
+  .produto-nome {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--verde);
+    margin-bottom: 0.4rem;
+    transition: color 0.25s;
+  }
+
+  .produto-desc {
+    font-size: 0.78rem;
+    color: var(--cinza);
+    font-weight: 300;
+    line-height: 1.5;
+    transition: color 0.25s;
+  }
+
+  /* ── DRAGÃO INVITES ── */
+  #dragao { background: var(--creme-escuro); }
+
+  .dragao-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .dragao-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .stat-box {
+    background: var(--branco);
+    border: 1px solid var(--creme-escuro);
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  .stat-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--dourado);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--verde);
+    line-height: 1;
+  }
+
+  .stat-lbl {
+    font-size: 0.72rem;
+    color: var(--cinza);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.4rem;
+    font-weight: 500;
+  }
+
+  .dragao-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .dragao-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--dourado), transparent);
+  }
+
+  .timeline-item {
+    margin-bottom: 2rem;
+    position: relative;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -2.4rem;
+    top: 0.4rem;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--dourado);
+    border: 2px solid var(--creme-escuro);
+  }
+
+  .timeline-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracota);
+    margin-bottom: 0.3rem;
+  }
+
+  .timeline-text {
+    font-size: 0.95rem;
+    color: var(--carvao);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ── OBJECTIVOS ── */
+  #objectivos { background: var(--branco); }
+
+  .obj-grid {
+    display: grid;
+    gap: 0;
+    margin-top: 3.5rem;
+  }
+
+  .obj-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    align-items: start;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--creme-escuro);
+    gap: 1.5rem;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+
+  .obj-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .obj-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--creme-escuro);
+    line-height: 1;
+    text-align: right;
+    padding-right: 0.5rem;
+    border-right: 1px solid var(--creme-escuro);
+  }
+
+  .obj-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--verde);
+    margin-bottom: 0.5rem;
+  }
+
+  .obj-text {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #3A3A3A;
+    font-weight: 300;
+  }
+
+  /* ── TERRITÓRIO ── */
+  #territorio { background: var(--verde); overflow: hidden; }
+
+  .territorio-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  #territorio .section-title { color: var(--creme); }
+
+  .territorio-visual {
+    position: relative;
+    height: 460px;
+  }
+
+  .mapa-svg { width: 100%; height: 100%; }
+
+  .territorio-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .tag {
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(201,169,110,0.5);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--dourado);
+    letter-spacing: 0.08em;
+    transition: background 0.2s, border-color 0.2s;
+    cursor: default;
+  }
+
+  .tag:hover {
+    background: rgba(201,169,110,0.15);
+    border-color: var(--dourado);
+  }
+
+  /* ── CTA FINAL ── */
+  #cta {
+    background: var(--creme);
+    text-align: center;
+    padding: 8rem 2rem;
+  }
+
+  .cta-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--verde);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .cta-body {
+    font-size: 1rem;
+    color: var(--cinza);
+    font-weight: 300;
+    line-height: 1.8;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--carvao);
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--dourado);
+    font-style: italic;
+  }
+
+  .footer-copy {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.35);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: 0.4; transform: scaleY(0.7); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--dourado);
+    z-index: 200;
+    transition: width 0.1s;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .id-grid, .eixos-grid, .dragao-inner, .territorio-inner { grid-template-columns: 1fr; }
+    .produtos-grid { grid-template-columns: 1fr 1fr; }
+    .dragao-stats { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .reveal, .obj-item, .timeline-item { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<!-- Nav -->
+<nav id="navbar">
+  <span class="nav-logo">Quinta Feliz Dragão</span>
+  <ul class="nav-links">
+    <li><a href="#identificacao">The Project</a></li>
+    <li><a href="#eixos">Two Pillars</a></li>
+    <li><a href="#produtos">Production</a></li>
+    <li><a href="#dragao">Dragão Invites</a></li>
+    <li><a href="#objectivos">Goals</a></li>
+    <li><a href="#territorio">Territory</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-bg"></div>
+
+  <svg class="hero-illustration" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="100" cy="200" rx="60" ry="20" fill="#C9A96E" transform="rotate(-30 100 200)"/>
+    <ellipse cx="150" cy="180" rx="70" ry="22" fill="#C9A96E" transform="rotate(-20 150 180)"/>
+    <ellipse cx="1100" cy="600" rx="80" ry="25" fill="#C9A96E" transform="rotate(20 1100 600)"/>
+    <ellipse cx="1050" cy="630" rx="65" ry="20" fill="#C9A96E" transform="rotate(40 1050 630)"/>
+    <circle cx="600" cy="120" r="3" fill="#C9A96E"/>
+    <circle cx="620" cy="100" r="2" fill="#C9A96E"/>
+    <circle cx="580" cy="110" r="2.5" fill="#C9A96E"/>
+    <path d="M80 400 Q200 300 300 200" stroke="#C9A96E" stroke-width="1" fill="none"/>
+    <path d="M1120 400 Q1000 500 900 600" stroke="#C9A96E" stroke-width="1" fill="none"/>
+    <path d="M550 680 C560 660 590 650 610 670 C630 650 660 660 670 680 C680 700 660 720 640 710 C630 730 590 730 580 710 C560 720 540 700 550 680Z" fill="#C9A96E" opacity="0.4"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Project Proposal · Almargem, Tavira · Algarve, Portugal</p>
+    <h1 class="hero-title">Quinta Feliz <em>Dragão</em></h1>
+    <p class="hero-subtitle">× Dragão Invites</p>
+    <div class="hero-divider"></div>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Area</span>
+        <span class="hero-meta-value">~ 2 hectares</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Production</span>
+        <span class="hero-meta-value">Certified Organic</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Location</span>
+        <span class="hero-meta-value">Almargem, Tavira</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">First Dinner</span>
+        <span class="hero-meta-value">June 28, 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" onclick="document.getElementById('identificacao').scrollIntoView({behavior:'smooth'})">
+    <span>Explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- The Project -->
+<section id="identificacao">
+  <div class="container">
+    <p class="section-eyebrow reveal">Project Overview</p>
+    <h2 class="section-title reveal">A farm with<br><em>two purposes</em></h2>
+    <p class="section-body reveal">Quinta Feliz Dragão is a fully operational organic farm with its own team and daily production. The project is built around two complementary pillars: organic production and a private farm-to-table dining programme.</p>
+
+    <div class="id-grid">
+      <table class="id-table reveal">
+        <tr>
+          <td>Trading Name</td>
+          <td>Quinta Feliz Dragão / Dragão Invites</td>
+        </tr>
+        <tr>
+          <td>Location</td>
+          <td>Almargem, Tavira, Algarve</td>
+        </tr>
+        <tr>
+          <td>Total Area</td>
+          <td>Approximately 2 hectares</td>
+        </tr>
+        <tr>
+          <td>Founder</td>
+          <td>Kathryn · American, resident in Portugal</td>
+        </tr>
+        <tr>
+          <td>Core Activity</td>
+          <td>Organic agricultural production</td>
+        </tr>
+        <tr>
+          <td>Complementary Activity</td>
+          <td>Private farm-to-table dinners</td>
+        </tr>
+        <tr>
+          <td>Inaugural Event</td>
+          <td>June 28, 2026 · Chef Joe Devine</td>
+        </tr>
+      </table>
+
+      <div class="id-visual reveal">
+        <div class="id-stat">
+          <div class="id-stat-number">2 ha</div>
+          <div class="id-stat-label">Active farming area</div>
+        </div>
+        <div class="id-stat">
+          <div class="id-stat-number">2×</div>
+          <div class="id-stat-label">Private dinners per month · 12 guests each</div>
+        </div>
+        <div class="id-stat">
+          <div class="id-stat-number">100%</div>
+          <div class="id-stat-label">Farm-sourced ingredients</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Two Pillars -->
+<section id="eixos">
+  <div class="container">
+    <p class="section-eyebrow reveal" style="color:var(--dourado)">Business Model</p>
+    <h2 class="section-title reveal">Two pillars.<br><em>One ecosystem.</em></h2>
+    <p class="section-body reveal">The two pillars are not parallel — they are interdependent. The land feeds the dinners. The dinners demonstrate the value of the land.</p>
+
+    <div class="eixos-grid reveal">
+      <div class="eixo-card">
+        <span class="eixo-number">1</span>
+        <div class="eixo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A96E" stroke-width="1.5">
+            <path d="M12 2a9 9 0 0 0-9 9c0 4 2.5 7.5 6 8.5V22h6v-2.5c3.5-1 6-4.5 6-8.5a9 9 0 0 0-9-9z"/>
+            <path d="M9 12s1 2 3 2 3-2 3-2"/>
+          </svg>
+        </div>
+        <div class="eixo-tag">Pillar 1</div>
+        <h3 class="eixo-title">Organic Production &amp; Local Commerce</h3>
+        <p class="eixo-body">The farm produces micro greens, citrus, aromatic herbs, and seasonal foods. Surplus is sold through local channels across Tavira and the Algarve. Organic certification will formalise practices already underway and open access to markets, restaurants, and distributors that require verified provenance.</p>
+        <div class="eixo-badge">Organic Certification · In Progress</div>
+      </div>
+
+      <div class="eixo-card">
+        <span class="eixo-number">2</span>
+        <div class="eixo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A96E" stroke-width="1.5">
+            <path d="M3 6h18M3 12h18M3 18h12"/>
+            <circle cx="19" cy="18" r="3"/>
+          </svg>
+        </div>
+        <div class="eixo-tag">Pillar 2</div>
+        <h3 class="eixo-title">Dragão Invites — Farm-to-Table Dinners</h3>
+        <p class="eixo-body">Two private dinners per month, for groups of 12. Each dinner is developed by a guest chef who works exclusively with what the farm produces at that moment. The menu is never set in advance — it is built from what the land offers that day.</p>
+        <div class="eixo-badge">Guest Chef · Seasonal Menu</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Production -->
+<section id="produtos">
+  <div class="container">
+    <p class="section-eyebrow reveal">What the Land Produces</p>
+    <h2 class="section-title reveal">Active organic<br><em>production</em></h2>
+    <p class="section-body reveal">Production is managed daily by the farm's own team under the founder's supervision. Organic certification will formalise practices already in place — transforming a fully functional operation into a formal reference of organic farming in the region.</p>
+
+    <div class="produtos-grid reveal">
+      <div class="produto-item">
+        <span class="produto-svg">🌱</span>
+        <div class="produto-nome">Micro Greens</div>
+        <div class="produto-desc">Continuous production, frequent harvest</div>
+      </div>
+      <div class="produto-item">
+        <span class="produto-svg">🍋</span>
+        <div class="produto-nome">Citrus</div>
+        <div class="produto-desc">Seasonal varieties from the estate</div>
+      </div>
+      <div class="produto-item">
+        <span class="produto-svg">🌿</span>
+        <div class="produto-nome">Aromatic Herbs</div>
+        <div class="produto-desc">Diverse range of varieties</div>
+      </div>
+      <div class="produto-item">
+        <span class="produto-svg">🥬</span>
+        <div class="produto-nome">Seasonal Produce</div>
+        <div class="produto-desc">According to the agricultural cycle</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Dragão Invites -->
+<section id="dragao">
+  <div class="container">
+    <div class="dragao-inner">
+      <div>
+        <p class="section-eyebrow reveal">Dragão Invites</p>
+        <h2 class="section-title reveal">The experience<br>that <em>proves</em><br>the produce</h2>
+        <p class="section-body reveal">The dinners are not merely an additional revenue stream. They are a live demonstration of what the farm grows — the most compelling way to communicate the value of organic produce is to place it on the table.</p>
+
+        <div class="dragao-stats reveal">
+          <div class="stat-box">
+            <div class="stat-num">2×</div>
+            <div class="stat-lbl">Dinners per month</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">12</div>
+            <div class="stat-lbl">Guests per dinner</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">0</div>
+            <div class="stat-lbl">Fixed menus<br><span style="font-size:0.65rem;color:var(--cinza)">everything is seasonal</span></div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">100%</div>
+            <div class="stat-lbl">Farm-sourced ingredients</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dragao-timeline reveal">
+        <div class="timeline-item">
+          <div class="timeline-label">Chef Selection</div>
+          <div class="timeline-text">A guest chef is confirmed in advance. Each dinner is conceived as a singular, unrepeatable experience.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-label">Dinner Day</div>
+          <div class="timeline-text">The chef visits the farm and builds the menu around what the land offers at that exact moment. No fixed dishes, no predetermined course.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-label">At the Table</div>
+          <div class="timeline-text">12 guests share an exclusive farm-to-table experience in a private setting on the estate itself.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-label">Inaugural Event</div>
+          <div class="timeline-text"><strong>June 28, 2026</strong> · Chef Joe Devine. The official launch of the Dragão Invites programme.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Goals -->
+<section id="objectivos">
+  <div class="container">
+    <p class="section-eyebrow reveal">Project Goals</p>
+    <h2 class="section-title reveal">What this project<br><em>sets out to achieve</em></h2>
+
+    <div class="obj-grid">
+      <div class="obj-item">
+        <div class="obj-num">01</div>
+        <div class="obj-content">
+          <div class="obj-title">Organic Certification</div>
+          <div class="obj-text">Obtain organic production certification, formalising the agricultural practices already underway at Quinta Feliz Dragão and unlocking access to certified supply channels.</div>
+        </div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-num">02</div>
+        <div class="obj-content">
+          <div class="obj-title">Sustainable Local Distribution</div>
+          <div class="obj-text">Build a reliable local channel for certified organic surplus, reaching markets, restaurants, and partners who require verified provenance and traceability.</div>
+        </div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-num">03</div>
+        <div class="obj-content">
+          <div class="obj-title">Grow Dragão Invites</div>
+          <div class="obj-text">Establish the private dinner programme as a consistent complementary activity that directly valorises organic produce and generates a second revenue stream from the same estate.</div>
+        </div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-num">04</div>
+        <div class="obj-content">
+          <div class="obj-title">Regional Reference</div>
+          <div class="obj-text">Position Quinta Feliz Dragão as a benchmark for organic farming in the Tavira region, contributing to the development of sustainable agriculture in the Algarve.</div>
+        </div>
+      </div>
+      <div class="obj-item">
+        <div class="obj-num">05</div>
+        <div class="obj-content">
+          <div class="obj-title">An Integrated, Replicable Model</div>
+          <div class="obj-text">Create a model in which organic agriculture and gastronomy sustain and communicate each other — the farm supplies the ingredients, the dinners prove their worth.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Territory -->
+<section id="territorio">
+  <div class="container">
+    <div class="territorio-inner">
+      <div>
+        <p class="section-eyebrow reveal" style="color:var(--dourado)">Why Here</p>
+        <h2 class="section-title reveal">The Algarve<br>is <em>ready for this</em></h2>
+        <p class="section-body reveal" style="color:rgba(245,237,216,0.75)">The region has growing demand for local organic produce and for authentic gastronomic experiences rooted in the land. Quinta Feliz Dragão answers both trends simultaneously — and from the same estate.</p>
+
+        <div class="territorio-tags reveal" style="margin-top:2.5rem">
+          <span class="tag">Tourism Market</span>
+          <span class="tag">International Residents</span>
+          <span class="tag">Local Restaurants</span>
+          <span class="tag">Organic Produce</span>
+          <span class="tag">Sustainable Farming</span>
+          <span class="tag">Territory Gastronomy</span>
+          <span class="tag">Tavira · Algarve</span>
+        </div>
+      </div>
+
+      <!-- Improved SVG Map -->
+      <div class="territorio-visual reveal">
+        <svg viewBox="0 0 420 460" class="mapa-svg" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Ocean label left -->
+          <text x="18" y="230" font-family="Playfair Display,serif" font-size="9" fill="rgba(201,169,110,0.3)" font-style="italic" transform="rotate(-90 18 230)">Atlantic Ocean</text>
+
+          <!-- Portugal mainland — more accurate shape -->
+          <!-- Northern coast roughly at top, Algarve coast at bottom, Atlantic on left -->
+          <path d="
+            M 160 40
+            L 175 38
+            L 195 42
+            L 210 48
+            L 225 52
+            L 235 58
+            L 240 70
+            L 242 85
+            L 238 100
+            L 235 115
+            L 240 130
+            L 242 145
+            L 238 160
+            L 240 175
+            L 238 190
+            L 235 205
+            L 240 218
+            L 242 232
+            L 238 245
+            L 234 252
+            L 228 258
+            L 222 262
+            L 215 265
+            L 208 268
+            L 200 270
+            L 192 272
+            L 182 272
+            L 172 270
+            L 165 266
+            L 158 260
+            L 155 253
+            L 152 245
+            L 148 235
+            L 145 222
+            L 142 208
+            L 140 192
+            L 138 178
+            L 136 162
+            L 135 148
+            L 134 132
+            L 133 118
+            L 133 103
+            L 134 88
+            L 136 73
+            L 140 60
+            L 148 50
+            Z
+          " fill="rgba(201,169,110,0.12)" stroke="rgba(201,169,110,0.5)" stroke-width="1.5" stroke-linejoin="round"/>
+
+          <!-- Algarve strip — southern coastal band, more accurate east-west shape -->
+          <path d="
+            M 138 248
+            L 142 248
+            L 148 250
+            L 152 253
+            L 155 258
+            L 158 263
+            L 163 267
+            L 170 270
+            L 178 272
+            L 186 273
+            L 195 272
+            L 203 270
+            L 210 267
+            L 217 263
+            L 222 260
+            L 228 257
+            L 234 252
+            L 236 248
+            L 236 258
+            L 233 265
+            L 228 270
+            L 220 274
+            L 210 277
+            L 200 279
+            L 190 280
+            L 180 279
+            L 170 277
+            L 160 273
+            L 152 268
+            L 146 262
+            L 141 256
+            L 138 250
+            Z
+          " fill="rgba(201,169,110,0.28)" stroke="rgba(201,169,110,0.65)" stroke-width="1" stroke-linejoin="round"/>
+
+          <!-- ALGARVE label inside region -->
+          <text x="175" y="268" font-family="Inter,sans-serif" font-size="7.5" fill="rgba(201,169,110,0.9)" font-weight="600" letter-spacing="2" text-anchor="middle">ALGARVE</text>
+
+          <!-- Spain border indication (right side) -->
+          <line x1="236" y1="80" x2="243" y2="255" stroke="rgba(201,169,110,0.2)" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="248" y="170" font-family="Inter,sans-serif" font-size="8" fill="rgba(201,169,110,0.25)" transform="rotate(90 248 170)">Spain</text>
+
+          <!-- Lisbon dot (north, for reference scale) -->
+          <circle cx="150" cy="155" r="3" fill="rgba(201,169,110,0.45)"/>
+          <text x="156" y="158" font-family="Inter,sans-serif" font-size="8" fill="rgba(201,169,110,0.45)">Lisbon</text>
+
+          <!-- Faro dot (Algarve capital, for reference) -->
+          <circle cx="185" cy="266" r="3" fill="rgba(201,169,110,0.65)"/>
+          <text x="190" y="263" font-family="Inter,sans-serif" font-size="8" fill="rgba(201,169,110,0.65)">Faro</text>
+
+          <!-- ── TAVIRA / ALMARGEM — eastern Algarve, east of Faro ── -->
+          <!-- Almargem pulse ring -->
+          <circle cx="218" cy="264" r="16" fill="rgba(201,169,110,0.06)">
+            <animate attributeName="r" values="10;22;10" dur="2.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.15;0;0.15" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="218" cy="264" r="8" fill="rgba(201,169,110,0.15)"/>
+          <circle cx="218" cy="264" r="5" fill="#C9A96E" filter="url(#glow)"/>
+
+          <!-- Tavira label -->
+          <text x="226" y="260" font-family="Inter,sans-serif" font-size="10" fill="#C9A96E" font-weight="700" letter-spacing="0.5">TAVIRA</text>
+          <text x="226" y="272" font-family="Inter,sans-serif" font-size="8" fill="rgba(201,169,110,0.7)">Almargem · QFD</text>
+
+          <!-- Connector line from dot to label -->
+          <line x1="222" y1="264" x2="226" y2="264" stroke="rgba(201,169,110,0.5)" stroke-width="0.8"/>
+
+          <!-- Portugal country label -->
+          <text x="175" y="155" font-family="Playfair Display,serif" font-size="13" fill="rgba(201,169,110,0.35)" font-style="italic" text-anchor="middle">Portugal</text>
+
+          <!-- Compass rose — top right -->
+          <g transform="translate(368, 55)">
+            <circle cx="0" cy="0" r="24" fill="rgba(255,255,255,0.03)" stroke="rgba(201,169,110,0.22)" stroke-width="1"/>
+            <line x1="0" y1="-17" x2="0" y2="17" stroke="rgba(201,169,110,0.35)" stroke-width="0.8"/>
+            <line x1="-17" y1="0" x2="17" y2="0" stroke="rgba(201,169,110,0.35)" stroke-width="0.8"/>
+            <polygon points="0,-17 -4,-6 4,-6" fill="#C9A96E" opacity="0.85"/>
+            <polygon points="0,17 -3,7 3,7" fill="rgba(201,169,110,0.3)"/>
+            <text x="0" y="-22" font-family="Inter,sans-serif" font-size="8" fill="rgba(201,169,110,0.75)" text-anchor="middle" font-weight="600">N</text>
+          </g>
+
+          <!-- Scale bar -->
+          <g transform="translate(130, 310)">
+            <line x1="0" y1="0" x2="60" y2="0" stroke="rgba(201,169,110,0.5)" stroke-width="1"/>
+            <line x1="0" y1="-4" x2="0" y2="4" stroke="rgba(201,169,110,0.5)" stroke-width="1"/>
+            <line x1="60" y1="-4" x2="60" y2="4" stroke="rgba(201,169,110,0.5)" stroke-width="1"/>
+            <text x="30" y="14" font-family="Inter,sans-serif" font-size="8" fill="rgba(201,169,110,0.5)" text-anchor="middle">~ 100 km</text>
+          </g>
+
+          <!-- Atlantic wave lines left of Portugal -->
+          <path d="M 100 130 Q 112 124 124 130" stroke="rgba(201,169,110,0.15)" stroke-width="1" fill="none"/>
+          <path d="M 98 142 Q 110 136 122 142" stroke="rgba(201,169,110,0.12)" stroke-width="1" fill="none"/>
+          <path d="M 100 154 Q 112 148 124 154" stroke="rgba(201,169,110,0.1)" stroke-width="1" fill="none"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Final -->
+<section id="cta">
+  <h2 class="cta-title reveal">"The land produces.<br>The table celebrates."</h2>
+  <p class="cta-body reveal">Quinta Feliz Dragão is more than an organic farm — it is a model in which agriculture and gastronomy sustain and communicate each other, from the same earth, on the same estate.</p>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-brand">Quinta Feliz Dragão × Dragão Invites</div>
+  <div class="footer-copy">Almargem · Tavira · Algarve · Portugal</div>
+</footer>
+
+<script>
+// Progress bar
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.body.scrollHeight - window.innerHeight;
+  progress.style.width = (scrollTop / docHeight * 100) + '%';
+});
+
+// Nav scroll
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal, .obj-item, .timeline-item');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, entry.target.dataset.delay || 0);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+reveals.forEach((el, i) => {
+  el.dataset.delay = (i % 4) * 80;
+  observer.observe(el);
+});
+
+document.querySelectorAll('.timeline-item').forEach((el, i) => {
+  el.style.transitionDelay = (i * 0.12) + 's';
+});
+
+document.querySelectorAll('.obj-item').forEach((el, i) => {
+  el.style.transitionDelay = (i * 0.1) + 's';
+});
+</script>
+
+</body>
+</html>
